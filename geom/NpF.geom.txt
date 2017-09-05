@@ -1,0 +1,5 @@
+zmatrix 
+ Np 
+ F       1        2.04916
+end 
+end 

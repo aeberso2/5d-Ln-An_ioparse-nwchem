@@ -1,0 +1,5 @@
+zmatrix
+I
+I   1    2.69042
+end
+end
