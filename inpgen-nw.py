@@ -4,9 +4,6 @@ from numpy import *
 import pandas as pd
 top_direc = os.getcwd()
 
-
-
-
 def data_sync():
     os.chdir('basis')
     primitive_basis_db = []
@@ -40,12 +37,6 @@ def data_sync():
     maindb['geom']  =  proto_database
     maindb['multiplicity'] = mult
     maindb.close()
-
-
-
-
-
-
 
 def init_params():
     # These elements require a pseudopotential - not inclusive list, just includes the atoms we work with.    
@@ -106,8 +97,6 @@ def init_params():
     return xckey, rel_set
 
 
-
-
 def search_basis(atom,basis_ext):
     basis_file = pd.read_hdf('input_gendb.h5','basis')
     basis_entry = '{}{}'.format(atom, basis_ext)
@@ -121,10 +110,8 @@ def gen_nw_recp_dft_input(input_set,
                           optimize='n',
                           level='WB',
                           Nbas_keys=''):
-#                                    Nbas_keys=['','T']):
     '''
     this program generates a set of DFT functional inputs that run in NWChem
-    
     First off, before anyone asks, YES, THIS USES THE cc-pV(T+D)Z SET FOR ROW 3 AND BEYOND!
     
     Function arguments
@@ -341,22 +328,22 @@ def gen_nw_recp_dft_input(input_set,
     if os.getcwd() != top_direc:       
         os.chdir(workdir)
 
-
-
-
 parser = argparse.ArgumentParser(description='''
 Hi! I make the .nw input files for dft calculations
-on the heavy elements. 
+on the heavy elements (5d, Ln, and An). This can routines
+for dft, sodft, and both. For Recp's there are four basis 
+classes: ANO, SEG, correlation consistent, and the old 1997
+RSC stuttgart start orbitals. 
 ''',
 epilog='\n Usage: inpgen-nw.py -c UO3 -b ANO -e WB -d sodft -opt y \n')
 
 parser.add_argument('-c','--compound', help="Name of compound", required=True)
-parser.add_argument('-b', '--relbasis',help="basis type CC, SEG, ANO, 97", required=True)
-parser.add_argument('-e', '--ecptype',help="ECP type WB, DF", required=True)
-parser.add_argument('-opt', '--optimize',help="do an optimization+freq", required=False)
-parser.add_argument('-d', '--dft_task',help="task directive for: dft sodft both, default=both", required=False)
-parser.add_argument('-aug', '--augmented',help="augmented ligand set?", required=False)
-parser.add_argument('-sync', '--db_sync',help="sync database files", required=False)
+parser.add_argument('-b', '--relbasis',help="basis type: CC, SEG, ANO, 97", required=True)
+parser.add_argument('-e', '--ecptype',help="relativistic method used to fit ECP: WB (quasi), DF(full)", required=True)
+parser.add_argument('-opt', '--optimize',help="y: do an optimization+freq, default=n", required=False)
+parser.add_argument('-d', '--dft_task',help="task directive for: dft, sodft, or both, default=both", required=False)
+parser.add_argument('-aug', '--augmented',help="augmented ligand basis set?", required=False)
+parser.add_argument('-sync', '--db_sync',help="sync database files, default=n", required=False)
 args = vars(parser.parse_args())
 
 compnd = args['compound']
@@ -385,6 +372,7 @@ else:
 gen_nw_recp_dft_input(compnd, rel_basis, dft_direc, optimize, level, Nbas_keys)
 
 
+#Mmove this to separate program 
 def gen_nw_DKH_dft_input(input_set, dft_direc='dft',optimize='n', Nbas_keys=['','T']):
     '''
     this program generates a set of DFT functional inputs that run in NWChem
