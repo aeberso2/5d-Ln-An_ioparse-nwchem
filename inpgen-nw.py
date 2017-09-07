@@ -5,17 +5,18 @@ import pandas as pd
 top_direc = os.getcwd()
 
 def data_sync():
-    os.chdir('basis')
-    primitive_basis_db = []
-    indexer = []
-    for i in os.listdir():
-        basis_r = open(f"{i}",'r')
-        indexer.append(re.sub(".txt","",i))
-        entry = basis_r.read()
-        primitive_basis_db.append(entry)
-        basis_r.close()
-    proto_basis_database = pd.Series(primitive_basis_db,index=indexer)
-    os.chdir('..')
+	# commentted out for now until I reimplement the alternative files
+#     os.chdir('basis')
+#     primitive_basis_db = []
+#     indexer = []
+#     for i in os.listdir():
+#         basis_r = open(f"{i}",'r')
+#         indexer.append(re.sub(".txt","",i))
+#         entry = basis_r.read()
+#         primitive_basis_db.append(entry)
+#         basis_r.close()
+#     proto_basis_database = pd.Series(primitive_basis_db,index=indexer)
+#     os.chdir('..')
     os.chdir('geom')
     primitive_geom_db = []
     indexer = []
@@ -33,7 +34,7 @@ def data_sync():
     os.chdir('..')
 
     maindb = pd.HDFStore('input_gendb.h5','a')
-    maindb['basis'] =  proto_basis_database
+#     maindb['basis'] =  proto_basis_database
     maindb['geom']  =  proto_database
     maindb['multiplicity'] = mult
     maindb.close()
