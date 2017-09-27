@@ -1,5 +1,0 @@
-zmatrix
-Lr
-O 1 1.86094
-end
-end

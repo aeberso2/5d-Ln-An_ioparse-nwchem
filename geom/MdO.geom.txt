@@ -1,5 +1,0 @@
-zmatrix
-Md
-O 1 1.86811
-end
-end
